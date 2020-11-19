@@ -7,7 +7,6 @@ const socket = io('http://localhost:3001');
 function App() {
 	const [code, setCode] = useState(0);
 	const [status, setStatus] = useState('');
-	const [video, setVideo] = useState(1);
 	const [resposta, setResposta] = useState('');
 	
 	useEffect(() => {
@@ -20,7 +19,6 @@ function App() {
 		socket.on('resposta', (resposta) => {
 			setResposta(resposta)
 		})
-		setTimeout(() => setVideo(2), 14000);
 	}, []);
 	return (
 		<div>
