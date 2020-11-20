@@ -1,7 +1,9 @@
 const server = require('http').createServer();
 const io = require('socket.io')(server);
 const axios = require('axios');
-const { parse } = require('path');
+const {
+	parse
+} = require('path');
 
 const sessions = {};
 class fila {
@@ -36,32 +38,35 @@ class queue {
 const filaDeUsuarios = [];
 const vez = 000001;
 io.on('connection', socket => {
-	const code = `${Math.floor(Math.random() * 5)}`.padStart(1, '0');
-	sessions[code] = {
-		socket,
-		status: 'waiting_call'
-	};
-	socket.emit('code', code);
-	socket.emit('status', sessions[code].status);
-	socket.join("");
-	socket.on('user', (user) => {
-		let user2 = new queue(socket.id, user);
-		filaDeUsuarios.push(user2)
-		if (user == fila.getFila()) {
-			filaDeUsuarios.forEach(teste => {
-				const number = 1 + parseFloat(user);
-				if (teste.name == number) {
-					console.log("enviei " + teste.name + " -- user : " + user);
-					socket.broadcast.to(teste.socketId).emit('resposta', "É SUA VEZ ");
-				}
-			});
-			fila.setFila();
-		} else {
-			// console.log(" CHEGOU sss " + socket.id + " - " + user);
-			console.log("fila : " + fila.getFila() +" - user : " + user);
-			socket.broadcast.emit('resposta', "NAO É SUA VEZ ");
-		}
-	});
+	// const code = `${Math.floor(Math.random() * 5)}`.padStart(1, '0');
+	// sessions[code] = {
+	// 	socket,
+	// 	status: 'waiting_call'
+	// };
+	socket.on('message', (msg) => {
+		console.log(msg);
+	})
+	socket.emit('code', "4546");
+	// socket.emit('status', sessions[code].status);
+	// socket.join("");
+	// socket.on('user', (user) => {
+	// 	let user2 = new queue(socket.id, user);
+	// 	filaDeUsuarios.push(user2)
+	// 	if (user == fila.getFila()) {
+	// 		filaDeUsuarios.forEach(teste => {
+	// 			const number = 1 + parseFloat(user);
+	// 			if (teste.name == number) {
+	// 				console.log("enviei " + teste.name + " -- user : " + user);
+	// 				socket.broadcast.to(teste.socketId).emit('resposta', "É SUA VEZ ");
+	// 			}
+	// 		});
+	// 		fila.setFila();
+	// 	} else {
+	// 		// console.log(" CHEGOU sss " + socket.id + " - " + user);
+	// 		console.log("fila : " + fila.getFila() +" - user : " + user);
+	// 		socket.broadcast.emit('resposta', "NAO É SUA VEZ ");
+	// 	}
+	// });
 });
 
-server.listen(3001);
+server.listen(3333);
